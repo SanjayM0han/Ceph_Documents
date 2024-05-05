@@ -163,6 +163,68 @@ tuned-adm active
 tuned-adm profile network-latency
 tuned-adm profile network-throughput
 
+ceph orch host add *<newhost>* [*<ip>*] [*<label1> ...*]
+ceph orch host add host4 10.10.0.104 --labels _admin
+ceph orch host add hostname 192.1.12.5 --labels=my_label1,my_label2
+ceph orch daemon add osd *<host>*:*<device-path>*
+ceph orch daemon add osd host1:/dev/sdb
+
+ceph orch apply osd --all-available-devices
+ceph orch host ls --detail
+ceph orch ps <hostid>
+ceph orch host add *<newhost>* [*<ip>*] [*<label1> ...*]
+ceph orch host drain *<host>*
+ceph orch osd rm status
+ceph orch host drain *<host>* --zap-osd-devices
+ceph orch host rm <host>
+ceph orch host add my_hostname --labels=my_label1,my_label2
+ceph orch host label rm my_hostname my_label
+ceph orch host maintenance enter <hostname> [--force] [--yes-i-really-mean-it]
+ceph orch host maintenance exit <hostname>
+ceph orch daemon stop <name>
+ceph orch daemon start <name>
+ceph orch daemon restart <name>
+ceph orch daemon redeploy <name>
+ceph crash ls
+ceph crash info <crash-id>
+ceph crash archive <crash-id>
+ceph crash archive-all
+ceph config set mgr mgr/crash/warn_recent_interval 0
+cephadm rm-cluster --force --fsid 0fbfd268-c0f4-11ee-bf05-d7cc2597399c
+lvremove <lvm name>
+vgremove <vgname>
+wipefs -a /dev/sdb (provide correct path)
+fdisk /dev/sdb
+ceph orch daemon add osd  <host>:<device-path>
+ceph osd pool create cephfs
+ceph osd pool create cephfs_metadata
+ceph fs new cephfs cephfs_metadata cephfs
+ceph osd pool delete {pool-name} [{pool-name} --yes-i-really-really-mean-it]
+
+ceph config set mon mon_allow_pool_delete true
+
+
+ceph osd pool set POOL pg_num VALUE
+
+ceph osd pool set data pg_num 4
+
+ceph config set mon mon_max_pg_per_osd 1000
+
+ceph mgr module enable selftest
+ceph mgr self-test run
+
+tail -n 100 /var/log/ceph/cephadm.log
+
+ceph config set mgr mgr/prometheus/server_port 9283
+
+
+ceph osd pool create cephfs_data
+ceph osd pool create cephfs_metadata
+ceph fs new <fs_name> <metadata> <data>
+
+ceph fs new cephfs cephfs_metadata cephfs_data
+ceph mds stat
+
 Enable jumboframes
 
 cat /sys/block/device/queue/scheduler
